@@ -1,36 +1,38 @@
 import { useEffect, useRef } from "react";
 import LiquidGlass from "liquid-glass-js";
 
-// Real liquid-glass-js (github.com/dashersw/liquid-glass-js) draggable lens —
-// a genuine refractive "inspector's loupe" you can drag across the loss
-// surface / blueprint background, on-theme for an engineering-drawing site.
-export default function GlassLoupe({ targetRef, size = 148 }) {
+// Real liquid-glass-js (github.com/dashersw/liquid-glass-js) draggable lens.
+// It clones its `background` target's DOM/CSS content and renders a warped
+// copy inside the lens, positioned independently via x/y -- so this sits
+// beside the hero copy, over open background, rather than on top of the
+// live heading, keeping the actual text perfectly readable while still
+// showing a real optical refraction of it.
+export default function GlassLoupe({ targetRef, size = 118 }) {
   const hostRef = useRef(null);
   const glassRef = useRef(null);
 
   useEffect(() => {
     if (!targetRef.current || !hostRef.current) return undefined;
+    // Keep small screens free of any overlay competing with the text.
+    if (window.innerWidth < 900) return undefined;
 
-    // liquid-glass-js positions the lens with `position: fixed`, so x/y are
-    // viewport (screen) coordinates -- compute them from the target panel's
-    // own on-screen position so the loupe starts centered over it.
     const rect = targetRef.current.getBoundingClientRect();
-    const x = rect.left + rect.width * 0.42 - size / 2;
-    const y = rect.top + 70;
+    const x = Math.min(rect.right + 64, window.innerWidth - size - 32);
+    const y = rect.top + 12;
 
     const glass = new LiquidGlass({
       background: targetRef.current,
       width: size,
       height: size,
       radius: size / 2,
-      scale: 52,
-      depth: 46,
-      curvature: 2.3,
-      convexity: 1,
-      chroma: 0.16,
+      scale: 20,
+      depth: 16,
+      curvature: 1.3,
+      convexity: 0.85,
+      chroma: 0.05,
       blur: 0,
-      glow: 0.24,
-      edge: 0.78,
+      glow: 0.16,
+      edge: 0.5,
       specAngle: 135,
       draggable: true,
       x,
@@ -39,16 +41,15 @@ export default function GlassLoupe({ targetRef, size = 148 }) {
     });
     glassRef.current = glass;
 
-    // The background (a live WebGL/shader canvas) animates, but liquid-glass-js
-    // clones it as a static snapshot by default -- refresh periodically so the
-    // lens shows a semi-live refraction instead of a frozen frame.
+    // The target is live text, not animated pixels, so a slow refresh is
+    // plenty to keep the clone in sync without extra work.
     const iv = setInterval(() => {
       try {
         glass.refresh();
       } catch {
         // ignore transient refresh errors if the background briefly resizes
       }
-    }, 140);
+    }, 400);
 
     return () => {
       clearInterval(iv);
