@@ -77,7 +77,7 @@ function Nav() {
           <li><a href="#contact">Contact</a></li>
         </ul>
         <div className="nav-status">
-          <span className="pulse" /> <span>{time}</span> · OPEN TO ROLES
+          <span className="pulse" /> <span>{time}</span> Â· OPEN TO ROLES
         </div>
       </div>
     </header>
@@ -104,7 +104,7 @@ function ProjectCard({ p, i }) {
       onMouseLeave={onMouseLeave}
       style={{ transformStyle: "preserve-3d", perspective: "800px" }}
     >
-      <span className="idx">FIG. {String(i + 1).padStart(2, "0")}</span>
+      <span className="idx">{String(i + 1).padStart(2, "0")}</span>
       <h3>{p.title}</h3>
       <div className="tag">{p.tag}</div>
       <p className="desc">{p.desc}</p>
@@ -167,7 +167,6 @@ function GearDiagram() {
 
 export default function App() {
   const [reduceMotion, setReduceMotion] = useState(false);
-  const scopeRef = useRef(null);
   const heroTextRef = useRef(null);
 
   useEffect(() => {
@@ -179,7 +178,10 @@ export default function App() {
   return (
     <>
       <AmbientBackground />
-      <div className="blueprint-grid" aria-hidden="true" />
+      <div className="bg-terrain" aria-hidden="true">
+        <LossSurface reduceMotion={reduceMotion} />
+      </div>
+      <div className="bg-scrim" aria-hidden="true" />
       <svg className="grain" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
         <filter id="noiseFilter">
           <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
@@ -191,48 +193,36 @@ export default function App() {
 
       <main id="top">
         <section className="hero wrap">
-          <p className="eyebrow">SHEET 01 — COVER</p>
-          <div className="hero-grid" style={{ marginTop: 26 }}>
-            <div ref={heroTextRef}>
-              <h1>
-                From tolerance stacks<br />
-                to <em>loss landscapes.</em>
-              </h1>
-              <p className="sub">
-                Prithwiraj Chatterjee — mechanical engineer turned data scientist &amp; ML/AI
-                engineer. I spent years reading dimension lines before I read gradients; now I
-                build models the way I used to build parts — to spec, and built to be trusted.
-              </p>
-              <div className="cta-row">
-                <a className="btn primary" href="#work">View selected work →</a>
-                <a className="btn" href="#contact">Get in touch</a>
-                <a className="btn" href="https://github.com/Prithwi13" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-              </div>
-              <div className="stat-row">
-                <div className="stat"><div className="num">3.9</div><div className="lbl">GPA / 4.0</div></div>
-                <div className="stat"><div className="num">9</div><div className="lbl">Shipped models</div></div>
-                <div className="stat"><div className="num">ICBAI '25</div><div className="lbl">Presented</div></div>
-                <div className="stat"><div className="num">WACV '26</div><div className="lbl">Submitted</div></div>
-              </div>
-              <p className="loupe-caption">↖ that circular lens is a real liquid-glass-js refraction — drag it</p>
+          <div className="hero-copy" ref={heroTextRef}>
+            <p className="eyebrow">MECHANICAL ENGINEER â ML / AI ENGINEER</p>
+            <h1 style={{ marginTop: 22 }}>
+              From tolerance stacks<br />
+              to <em>loss landscapes.</em>
+            </h1>
+            <p className="sub">
+              Prithwiraj Chatterjee â mechanical engineer turned data scientist &amp; ML/AI
+              engineer. I spent years reading dimension lines before I read gradients; now I
+              build models the way I used to build parts â to spec, and built to be trusted.
+            </p>
+            <div className="cta-row">
+              <a className="btn primary" href="#work">View selected work â</a>
+              <a className="btn" href="#contact">Get in touch</a>
+              <a className="btn" href="https://github.com/Prithwi13" target="_blank" rel="noopener noreferrer">GitHub â</a>
             </div>
-
-            <div>
-              <div className="scope" ref={scopeRef}>
-                <span className="scope-label">FIG. 01 — <span>LOSS SURFACE, LIVE</span></span>
-                <LossSurface reduceMotion={reduceMotion} />
-              </div>
-              <div className="scope-caption"><span>X: θ₁ · Y: θ₂</span><span>∇L → 0</span></div>
+            <div className="stat-row">
+              <div className="stat"><div className="num">9</div><div className="lbl">Shipped models</div></div>
+              <div className="stat"><div className="num">ICBAI '25</div><div className="lbl">Presented</div></div>
+              <div className="stat"><div className="num">WACV '26</div><div className="lbl">Submitted</div></div>
             </div>
+            <p className="loupe-caption">â that lens beside this text is a real liquid-glass-js refraction â drag it</p>
           </div>
         </section>
 
         <GlassLoupe targetRef={heroTextRef} />
 
         <section className="sheet wrap">
-          <Reveal className="sheet-head" style={{ display: "flex" }}>
+          <Reveal className="sheet-head">
             <h2>Thesis</h2>
-            <span className="sheet-num">SHEET 02 / 07</span>
           </Reveal>
           <div className="about-grid">
             <Reveal className="about-copy">
@@ -240,7 +230,7 @@ export default function App() {
               <p>
                 Before I touched Python, I was running tolerance stack-ups, reading GD&amp;T
                 callouts, and benchmarking a thrust-bearing shaft against a 1200kW motor. That's
-                an odd place to start a data science career — but it's exactly why my models
+                an odd place to start a data science career â but it's exactly why my models
                 don't stop at accuracy. I ask what's physically or operationally true before I
                 trust what a model says, the same instinct that used to make me double-check a
                 drawing before it went to the floor.
@@ -249,21 +239,20 @@ export default function App() {
                 Now the shop floor is a training loop. I compare optimizers instead of alloys,
                 read confusion matrices instead of inspection reports, and a recovery-time chart
                 on a supply-chain dashboard means as much to me as a Cp/Cpk plot once did. Same
-                discipline. Different medium — CAD, a training script, and a stakeholder
+                discipline. Different medium â CAD, a training script, and a stakeholder
                 conversation, all in one workflow.
               </p>
             </Reveal>
             <Reveal className="diagram">
               <GearDiagram />
-              <p className="diagram-cap">Fig. 02 — Same discipline, re-drawn</p>
+              <p className="diagram-cap">Fig. 02 â Same discipline, re-drawn</p>
             </Reveal>
           </div>
         </section>
 
         <section className="sheet wrap" id="work">
-          <Reveal className="sheet-head" style={{ display: "flex" }}>
+          <Reveal className="sheet-head">
             <h2>Selected work</h2>
-            <span className="sheet-num">SHEET 03 / 07 — 9 OF 20+ REPOS</span>
           </Reveal>
           <div className="grid-projects">
             {projects.map((p, i) => (
@@ -273,9 +262,8 @@ export default function App() {
         </section>
 
         <section className="sheet wrap" id="timeline">
-          <Reveal className="sheet-head" style={{ display: "flex" }}>
+          <Reveal className="sheet-head">
             <h2>Timeline</h2>
-            <span className="sheet-num">SHEET 04 / 07</span>
           </Reveal>
           <div className="timeline">
             {timeline.map((t) => (
@@ -291,7 +279,7 @@ export default function App() {
             ))}
           </div>
           <div className="t-more">
-            <p className="eyebrow" style={{ marginBottom: 10 }}>EARLIER — ENGINEERING ROOTS</p>
+            <p className="eyebrow" style={{ marginBottom: 10 }}>EARLIER â ENGINEERING ROOTS</p>
             {timelineMore.map((m) => (
               <div className="t-more-row" key={m.role + m.date}>
                 <span>{m.date}</span>
@@ -303,9 +291,8 @@ export default function App() {
         </section>
 
         <section className="sheet wrap" id="tooling">
-          <Reveal className="sheet-head" style={{ display: "flex" }}>
+          <Reveal className="sheet-head">
             <h2>Tooling</h2>
-            <span className="sheet-num">SHEET 05 / 07</span>
           </Reveal>
           {skills.map((g) => (
             <Reveal className="skill-group" key={g.group}>
@@ -320,9 +307,8 @@ export default function App() {
         </section>
 
         <section className="sheet wrap">
-          <Reveal className="sheet-head" style={{ display: "flex" }}>
+          <Reveal className="sheet-head">
             <h2>Credentials</h2>
-            <span className="sheet-num">SHEET 06 / 07</span>
           </Reveal>
           <div className="cred-grid">
             <Reveal className="cred">
@@ -330,7 +316,7 @@ export default function App() {
               <div className="cred-item" style={{ borderTop: "none" }}>
                 <div className="deg">M.S. Applied Statistics &amp; Data Science</div>
                 <div className="org">University of Texas at Arlington</div>
-                <div className="meta">GPA 3.9 · Expected Dec 2026</div>
+                <div className="meta">GPA 3.9 Â· Expected Dec 2026</div>
               </div>
               <div className="cred-item">
                 <div className="deg">B.Tech, Mechanical Engineering</div>
@@ -342,13 +328,13 @@ export default function App() {
               <h4>Research &amp; publications</h4>
               <div className="cred-item" style={{ borderTop: "none" }}>
                 <div className="deg">AR-SCO: Agentic RAG Framework for Dynamic Supply Chain Optimization</div>
-                <div className="org">Presented — ICBAI 2025</div>
-                <div className="meta">57% ↓ recovery time · +21.7pp OTIF</div>
+                <div className="org">Presented â ICBAI 2025</div>
+                <div className="meta">57% â recovery time Â· +21.7pp OTIF</div>
               </div>
               <div className="cred-item">
                 <div className="deg">EdgeAuth: On-Device AI-Generated Image Detection</div>
-                <div className="org">Submitted — WACV 2026</div>
-                <div className="meta">97.4% accuracy · AUC 0.978</div>
+                <div className="org">Submitted â WACV 2026</div>
+                <div className="meta">97.4% accuracy Â· AUC 0.978</div>
               </div>
             </Reveal>
           </div>
@@ -357,24 +343,24 @@ export default function App() {
         <section className="wrap" id="contact">
           <Reveal className="titleblock">
             <div className="tb-top">
-              <p className="eyebrow" style={{ marginBottom: 16 }}>SHEET 07 — TITLE BLOCK</p>
+              <p className="eyebrow" style={{ marginBottom: 16 }}>GET IN TOUCH</p>
               <h2>Let's build something that has to work.</h2>
               <p>
                 Open to full-time roles as a Data Scientist, ML/AI Engineer, GenAI &amp;
                 agentic-AI engineer, computer-vision engineer, or supply-chain / business analyst
-                — starting December 2026.
+                â starting December 2026.
               </p>
               <div className="cta-row" style={{ marginTop: 26 }}>
-                <a className="btn primary" href="mailto:pxc7391@mavs.uta.edu">Email me →</a>
-                <a className="btn" href="https://www.linkedin.com/in/pvthirteen" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-                <a className="btn" href="https://github.com/Prithwi13" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                <a className="btn primary" href="mailto:pxc7391@mavs.uta.edu">Email me â</a>
+                <a className="btn" href="https://www.linkedin.com/in/pvthirteen" target="_blank" rel="noopener noreferrer">LinkedIn â</a>
+                <a className="btn" href="https://github.com/Prithwi13" target="_blank" rel="noopener noreferrer">GitHub â</a>
               </div>
             </div>
             <div className="tb-grid">
               <div className="tb-cell"><div className="k">Drawn by</div><div className="v">Prithwiraj Chatterjee</div></div>
               <div className="tb-cell"><div className="k">Role</div><div className="v">Data Scientist / ML &amp; AI Eng.</div></div>
-              <div className="tb-cell"><div className="k">Location</div><div className="v">Dallas–Fort Worth, TX</div></div>
-              <div className="tb-cell"><div className="k">Status</div><div className="v">Open to work · Dec 2026</div></div>
+              <div className="tb-cell"><div className="k">Location</div><div className="v">DallasâFort Worth, TX</div></div>
+              <div className="tb-cell"><div className="k">Status</div><div className="v">Open to work Â· Dec 2026</div></div>
               <div className="tb-cell"><div className="k">Email</div><div className="v"><a href="mailto:pxc7391@mavs.uta.edu">pxc7391@mavs.uta.edu</a></div></div>
               <div className="tb-cell"><div className="k">LinkedIn</div><div className="v"><a href="https://www.linkedin.com/in/pvthirteen" target="_blank" rel="noopener noreferrer">/in/pvthirteen</a></div></div>
               <div className="tb-cell"><div className="k">GitHub</div><div className="v"><a href="https://github.com/Prithwi13" target="_blank" rel="noopener noreferrer">/Prithwi13</a></div></div>
@@ -383,8 +369,8 @@ export default function App() {
           </Reveal>
 
           <footer>
-            <span>© 2026 PRITHWIRAJ CHATTERJEE — DRAFTED IN THE BROWSER</span>
-            <span>SCALE 1:1 · NOT FOR PRODUCTION</span>
+            <span>Â© 2026 PRITHWIRAJ CHATTERJEE â DRAFTED IN THE BROWSER</span>
+            <span>SCALE 1:1 Â· NOT FOR PRODUCTION</span>
           </footer>
         </section>
       </main>
